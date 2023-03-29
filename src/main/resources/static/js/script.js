@@ -21,6 +21,7 @@ const toggleSidebar = () => {
 
        let url = `https://smartcontactmanager-production.up.railway.app/search/${query}`;
 
+
        fetch(url)
          .then((response) => {
            return response.json();
