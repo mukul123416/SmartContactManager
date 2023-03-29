@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal/base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8" />
+    <title>Setting Dashboard</title>
+</head>
+<body>
+
+<section>
+
+    <div class="container">
+        <div class="row row-cols-1 row-cols-md-2">
+
+            <div class="col mb-4">
+                <div class="card">
+                    <div class="text-center" style="margin-top:20px">
+                    <img style="height:150px;width:150px;" th:src="@{'/img/change_password.png'}" class="card-img-top" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-bottom:20px" class="text-center">
+                        <a style="text-decoration-color: black;"  th:href="@{/user/change_password_form}" class="card-title"><span style="color:black;font-weight:bold;font-size:20px;text-decoration-color: black;">Change Password</span></a>
+                        </div>
+                        <p class="card-text">A Password Change requires that the user authenticate himself/herself by remembering the old password while Password Reset doesn't require the user to remember his/her Old Password.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col mb-4">
+                <div class="card">
+                    <div class="text-center" style="margin-top:20px">
+                    <img style="height:150px;width:150px;" th:src="@{'/img/edit_profile.png'}" class="card-img-top" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-bottom:20px" class="text-center">
+                        <a style="text-decoration-color: black;"  th:href="@{'/user/update-user/'+${user.id}}" class="card-title"><span style="color:black;font-weight:bold;font-size:20px">Edit Profile</span></a>
+                        </div>
+                        <p class="card-text">In update profiles parameters are summarized which control the updating of the commitments and actual data in Smart Contact Manager.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col mb-4">
+                <div class="card">
+                    <div class="text-center" style="margin-top:20px">
+                        <img style="height:150px;width:150px;" th:src="@{'/img/download_content.png'}" class="card-img-top" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-bottom:20px" class="text-center">
+                            <a style="text-decoration-color: black;"  th:href="@{/user/download-content}" class="card-title"><span style="color:black;font-weight:bold;font-size:20px;text-decoration-color: black;">Download Content</span></a>
+                        </div>
+                        <p class="card-text">Downloading is the transmission of a file or data from one computer to another over a network, usually from a larger server to a user device.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+         $(document).ready(() =>{
+        	 $(".item").removeClass("active1");
+        	 $("#setting-link").addClass("active1");
+         });
+      </script>
+
+</section>
+
+</body>
+</html>
