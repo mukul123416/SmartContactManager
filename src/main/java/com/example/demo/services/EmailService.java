@@ -40,7 +40,7 @@ public class EmailService {
 
         });
 
-        session.setDebug(true);
+        session.setDebug(false);
 
         //Step 2 : compose the message [text,multi media]
         MimeMessage m = new MimeMessage(session);

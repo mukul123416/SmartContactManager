@@ -55,9 +55,9 @@ public class HomeController {
                 user.setImageUrl("default.png");
             }else{
                 user.setImageUrl(profileImage.getOriginalFilename());
-//                File saveFile = new ClassPathResource("static/img").getFile();
-                Path path = Paths.get("target/classes/static/img");
-                Files.copy(profileImage.getInputStream(), path.resolve(profileImage.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
+                File saveFile = new ClassPathResource("static/img").getFile();
+                Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+profileImage.getOriginalFilename());
+                Files.copy(profileImage.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
             }
             if(bindingResult.hasErrors()){
                 return "signup";
