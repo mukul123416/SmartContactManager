@@ -55,7 +55,7 @@ public class HomeController {
                 user.setImageUrl("default.png");
             }else{
                 user.setImageUrl(profileImage.getOriginalFilename());
-                File saveFile = new ClassPathResource("target/classes/static/img").getFile();
+                File saveFile = new ClassPathResource("static/img").getFile();
                 Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+profileImage.getOriginalFilename());
                 Files.copy(profileImage.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
             }
