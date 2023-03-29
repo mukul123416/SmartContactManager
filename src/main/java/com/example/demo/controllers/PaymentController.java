@@ -93,7 +93,7 @@ public class PaymentController {
         body.put("mid", AppConfig.MID);
         body.put("websiteName", AppConfig.WEBSITE);
         body.put("orderId", orderId);
-        body.put("callbackUrl", "http://localhost:8080/payment-success");
+        body.put("callbackUrl", "https://smartcontactmanager-production.up.railway.app/payment-success");
 
         JSONObject txnAmount = new JSONObject();
         txnAmount.put("value", data.get("amount"));

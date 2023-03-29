@@ -19,7 +19,7 @@ const toggleSidebar = () => {
      }
      else{
 
-       let url = `http://localhost:8080/search/${query}`;
+       let url = `https://smartcontactmanager-production.up.railway.app/search/${query}`;
 
        fetch(url)
          .then((response) => {
