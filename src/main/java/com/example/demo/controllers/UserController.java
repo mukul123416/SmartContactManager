@@ -331,16 +331,4 @@ public class UserController {
         model.addAttribute("title","Download Content");
         return "normal/download_content";
     }
-
-
-    @RequestMapping("/open_payments_form")
-    public String openPaymentsForm(Model model,Principal principal) {
-        String name=principal.getName();
-        User user=this.userRepository.getUserByUserName(name);
-        model.addAttribute("user",user);
-
-        model.addAttribute("title","Payment Dashboard");
-        return "normal/payments_page";
-    }
-
 }

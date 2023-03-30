@@ -37,14 +37,32 @@ public class ForgotController {
         //generating otp
         int otp = random.nextInt(999999);
         //write code for send otp to email
-        String subject="OTP From SCM";
+        String subject="OTP Verification";
         String message=""
-                + "<div style='border:1px solid #e2e2e2; padding:20px'>"
-                + "<h1>"
-                + "OTP is "
-                + "<b>"+otp
-                + "</n>"
+                + "<div style='background-color:lightgrey;padding:20px'>"
+                + "<div style='background-color:white;padding:30px'>"
+                + "<div style='text-align:center;'>"
+                + "<img width='150' height='150' src='cid:image'>"
+                + "<h1 style='margin-bottom:40px;'>"
+                + "Verification Code"
                 + "</h1>"
+                + "</div>"
+                + "<p>"
+                + "Please use the verification code below to forgot password."
+                + "<br>"
+                + "<h2 style='background: #00466a;width: max-content;padding: 5px 10px;color: #fff;border-radius: 4px;'>"+otp
+                + "</h2>"
+                + "If you did not request this, you can ignore this email."
+                + "<br>"
+                + "<br>"
+                + "Thanks,"
+                + "<br>"
+                + "The IT team"
+                + "</p>"
+                + "</div>"
+                + "<div style='background: #F0F0F0; text-align: center; padding: 30px;margin-top:10px'>"
+                + "Note: Please do not reply to this Email. For any queries please contact your IT Resource Manager."
+                + "</div>"
                 + "</div>";
         String to=email;
         boolean flag = this.emailService.sendEmail(subject, message, to);

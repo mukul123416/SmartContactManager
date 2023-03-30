@@ -42,10 +42,14 @@ const toggleSidebar = () => {
 
 //first request to server to create order
 const razorPayPaymentStart = () =>{
+  const regex = new RegExp(/^(?:0|[1-9]\d*)(?:\.(?!.*000)\d+)?$/);
   var amount = $("#razorpay_payment_field").val();
   if(amount == "" || amount == null){
     swal("Failed!", "amount is required !!", "error");
     return;
+  }else if(!(regex.test(amount))){
+     swal("Failed!", "Invalid amount !!", "error");
+     return;
   }
 
   $.ajax({
@@ -126,11 +130,15 @@ function updateRazorPayPaymentOnServer(Payment_id,Order_id,Status)
 
  //start paytm payment function
     async function paytmPaymentStart() {
+        const regex = new RegExp(/^(?:0|[1-9]\d*)(?:\.(?!.*000)\d+)?$/);
         const amount = document.querySelector("#paytm_payment_field").value;
          if(amount == "" || amount == null){
             swal("Failed!", "amount is required !!", "error");
             return;
-          }
+          }else if(!(regex.test(amount))){
+                swal("Failed!", "Invalid amount !!", "error");
+                return;
+             }
          $.ajax({
             url:'/paytm_create_order',
             data:JSON.stringify({amount:amount, info:"order_request"}),
@@ -206,4 +214,45 @@ function updateRazorPayPaymentOnServer(Payment_id,Order_id,Status)
 
             }
             document.body.appendChild(script);
-        }
+       }
+
+
+function myFunction() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+
+function myFunction1() {
+  var x = document.getElementById("oldPassword");
+  var y = document.getElementById("newPassword");
+  if (x.type === "password" || y.type === "password" ) {
+    x.type = "text";
+    y.type = "text";
+   } else {
+    x.type = "password";
+    y.type = "password";
+  }
+}
+
+function myFunction2() {
+  var x = document.getElementById("password_field");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+
+function myFunction3() {
+  var x = document.getElementById("id_password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+

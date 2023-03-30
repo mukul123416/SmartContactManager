@@ -48,6 +48,7 @@ public class PdfController {
             pdfHelper.export(response);
             return null;
         }catch (Exception e){
+            System.out.println(e.getMessage());
             return ErrorResponse.ResponseHandler(e.getMessage(), true, HttpStatus.BAD_REQUEST);
         }
     }

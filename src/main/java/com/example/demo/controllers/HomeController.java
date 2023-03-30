@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.User;
+import com.example.demo.helper.Message;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -12,12 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 
 @Controller
 public class HomeController {
@@ -27,6 +31,9 @@ public class HomeController {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @RequestMapping("/home")
     public String home(Model model){
@@ -77,5 +84,29 @@ public class HomeController {
     public String customLogin(Model model){
         model.addAttribute("title","Login Page");
         return "login";
+    }
+
+    @RequestMapping(value = "/user/open_payments_form",method=RequestMethod.POST)
+    public String openPaymentsForm(Model model, Principal principal, @RequestParam("donateName") String donateName, HttpSession session) {
+        try{
+            String name=principal.getName();
+            User user=this.userRepository.getUserByUserName(name);
+            if(user.getName().equals(donateName)){
+                model.addAttribute("user",user);
+                model.addAttribute("title","Payment Dashboard");
+                return "normal/payments_page";
+            }else {
+                model.addAttribute("user",user);
+                session.setAttribute("message", new Message("Something Went wrong !! Invalid name","alert-danger"));
+                return "normal/user_dashboard";
+            }
+        }catch (Exception ex){
+            String name=principal.getName();
+            User user=this.userRepository.getUserByUserName(name);
+            model.addAttribute("user",user);
+            session.setAttribute("message", new Message("Something Went wrong !!" + ex.getMessage(),"alert-danger"));
+            ex.getStackTrace();
+            return "normal/user_dashboard";
+        }
     }
 }
