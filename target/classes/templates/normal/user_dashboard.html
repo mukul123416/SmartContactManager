@@ -12,7 +12,7 @@
         <div class="card">
             <div class="card-body my-5">
 
-                <div style="height: 50px;" th:if="${session.message}"
+                <div th:if="${session.message}"
                      th:classappend="${session.message.type}" class="alert mx-5" role="alert">
                     <p class="text-center" th:text="${session.message.content}"></p>
                     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
