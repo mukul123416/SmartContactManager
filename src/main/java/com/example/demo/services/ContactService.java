@@ -1,8 +1,6 @@
 package com.example.demo.services;
 
 import com.example.demo.entities.Contact;
-import com.example.demo.entities.Parent;
-import com.example.demo.entities.User;
 
 import java.util.List;
 

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+</head>
+<body>
+
+<section>
+
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="page-header">
+                <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white me-2">
+                  <i class="fas fa-home"></i>
+                </span> Dashboard
+                </h3>
+            </div><br>
+            <div class="row">
+                <div class="col-md-4 stretch-card grid-margin">
+                    <div class="card bg-gradient-danger card-img-holder text-white">
+                        <div class="card-body admin-card-body">
+                            <img src="src/main/resources/static/img/circle.svg" th:src="@{/img/circle.svg}" class="card-img-absolute"/>
+                            <h4 class="font-weight-normal mb-3">Total Users <i class="fas fa-user" aria-hidden="true"></i>
+                            </h4>
+                            <h2 class="mb-5">15,0000</h2>
+                            <h6 class="card-text">Increased by 60%</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 stretch-card grid-margin">
+                    <div class="card bg-gradient-info card-img-holder text-white">
+                        <div class="card-body admin-card-body">
+                            <img src="src/main/resources/static/img/circle.svg" th:src="@{/img/circle.svg}" class="card-img-absolute"/>
+                            <h4 class="font-weight-normal mb-3">Weekly Users <i class="far fa-chart-bar"></i>
+                            </h4>
+                            <h2 class="mb-5">45,6334</h2>
+                            <h6 class="card-text">Decreased by 10%</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 stretch-card grid-margin">
+                    <div class="card bg-gradient-success card-img-holder text-white">
+                        <div class="card-body admin-card-body">
+                            <img src="src/main/resources/static/img/circle.svg" th:src="@{/img/circle.svg}" class="card-img-absolute"/>
+                            <h4 class="font-weight-normal mb-3">Visitors Online <i class="fas fa-globe"></i>
+                            </h4>
+                            <h2 class="mb-5">95,5741</h2>
+                            <h6 class="card-text">Increased by 5%</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas id="myChart" style="width:100%;max-width:400px"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 grid-margin">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 style="margin-top: 0.75rem;margin-left: 0.75rem;" class="card-title">Recent Users</h4>
+                            <div class="table-responsive">
+                                <table style="margin-left: 0.75rem;" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th> Assignee </th>
+                                        <th> Subject </th>
+                                        <th> Status </th>
+                                        <th> Last Update </th>
+                                        <th> Tracking ID </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="src/main/resources/static/img/contact.png" th:src="@{/img/contact.png}" class="me-2" alt="image"/> David Grey
+                                        </td>
+                                        <td> Fund is not recieved </td>
+                                        <td>
+                                            <label class="badge badge-gradient-success">DONE</label>
+                                        </td>
+                                        <td> Dec 5, 2017 </td>
+                                        <td> WD-12345 </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="src/main/resources/static/img/contact.png" th:src="@{/img/contact.png}" class="me-2" alt="image"/> Stella Johnson
+                                        </td>
+                                        <td> High loading time </td>
+                                        <td>
+                                            <label class="badge badge-gradient-warning">PROGRESS</label>
+                                        </td>
+                                        <td> Dec 12, 2017 </td>
+                                        <td> WD-12346 </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="src/main/resources/static/img/contact.png" th:src="@{/img/contact.png}" class="me-2" alt="image"/> Marina Michel
+                                        </td>
+                                        <td> Website down for one week </td>
+                                        <td>
+                                            <label class="badge badge-gradient-info">ON HOLD</label>
+                                        </td>
+                                        <td> Dec 16, 2017 </td>
+                                        <td> WD-12347 </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="src/main/resources/static/img/contact.png" th:src="@{/img/contact.png}" class="me-2" alt="image"/> John Doe
+                                        </td>
+                                        <td> Loosing control on server </td>
+                                        <td>
+                                            <label class="badge badge-gradient-danger">REJECTED</label>
+                                        </td>
+                                        <td> Dec 3, 2017 </td>
+                                        <td> WD-12348 </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+         $(document).ready(() =>{
+        	 $(".item").removeClass("active1");
+        	 $("#home-link").addClass("active1");
+         });
+      </script>
+
+</section>
+
+</body>
+</html>
