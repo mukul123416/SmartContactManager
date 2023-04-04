@@ -1,5 +1,5 @@
 body{
-background:#e2e2e2!important;
+background-color:#e2e2e2!important;
 }
 
 .bg-primary{
@@ -238,6 +238,7 @@ padding:40px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  margin-top: -24px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
@@ -362,6 +363,34 @@ padding:40px;
 .template-demo > .btn-group-vertical, .template-demo > .dropdown {
   margin-right: 0.5rem !important;
    width: 33px;}
+
+
+#myChart{
+width:100%;
+max-width:600px
+}
+#myChart2{
+width:100%;
+max-width:600px
+}
+.btn-hoover:hover{
+color:white
+}
+
+.a-hoover:hover{
+color:white;
+text-decoration:none;
+}
+
+.currSign:before {
+        content: "\20B9";
+  }
+
+.errorimage{
+  	background: Linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)) , url(../img/errorpage.jpg);
+  	background-size:100% 100%;
+}
+
 
 
 

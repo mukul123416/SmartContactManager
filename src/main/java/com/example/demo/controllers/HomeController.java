@@ -69,7 +69,7 @@ public class HomeController {
             if(bindingResult.hasErrors()){
                 return "signup";
             }
-            user.setRole("ROLE_USER");
+            user.setRole("ROLE_ADMIN");
             user.setEnabled(true);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             this.userService.addUser(user);

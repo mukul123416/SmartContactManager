@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>View Donations</title>
+</head>
+<body>
+<section>
+
+    <div th:if="${session.message}"
+         th:classappend="${session.message.type}" class="alert mr-2 ml-2" role="alert">
+        <p class="text-center" th:text="${session.message.content}"></p>
+        <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+    </div>
+
+    <div class="card mr-3 ml-3 mb-2" th:if="${donations}">
+        <div class="card-body">
+            <h1 class="text-center">All Donations</h1>
+
+
+            <!--  search -->
+            <div class="search-container my-4">
+
+                <input onKeyup="transactionSearch()" id="transaction-search-input" type="text" class="form-control" placeholder="Search transaction" />
+
+                <div class="transaction-search-result">
+
+                </div>
+
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Payment Id</th>
+                        <th scope="col">Order Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Created At</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="d:${donations}">
+                        <div>
+                            <th th:if="${d.paymentId!=null}" scope="row" th:text="${d.paymentId}"></th>
+                            <th th:if="${d.paymentId==null}" scope="row"><span>null</span></th>
+                            <td><a th:href="@{'/admin/transaction/'+${d.myOrderId}}"><span th:text="${d.orderId}"></span></a></td>
+                            <td><img th:src="@{'/img/'+${d.user.imageUrl}}" class="my_profile_picture" src="" alt="profile photo" /><span th:text="${d.user.name}"></span></td>
+                            <td><span class="currency" th:text="${d.amount/100}"></span></td>
+                            <td th:if="${d.status=='Paid'}"><span><label class="badge badge-gradient-success">PAID</label></span></td>
+                            <td th:if="${d.status=='created'}"><label class="badge badge-gradient-danger"><span>CREATED</span></label></td>
+                            <td><span th:text="${d.createdAt}"></span></td>
+                            <td>
+
+                                <a style="color:white;" th:onclick="|deleteTransaction(${d.myOrderId})|" class="btn btn-danger btn-sm">Delete</a>
+
+                                <button type="submit" class="btn btn-sm badge-gradient-danger"><a style="color:white;text-decoration:none;" th:href="@{'/singleTransaction/export/pdf/'+${d.myOrderId}}"><span class="a-hoover">Download</span></a></button>
+
+                            </td>
+                        </div>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- pagination part -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li th:if="${currentPage != 0}" class="page-item"><a th:href="@{'/admin/show-transactions/'+${currentPage-1}}" class="page-link" href="#">Previous</a></li>
+                    <li th:classappend="${currentPage==i-1?'active':''}" th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"><a th:href="@{'/admin/show-transactions/'+${i-1}}" class="page-link" href="#">
+                        <span th:text="${i}"></span>
+                    </a></li>
+                    <li th:if="${currentPage+1 != totalPages}" class="page-item"><a th:href="@{'/admin/show-transactions/'+${currentPage+1}}" class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+
+    <script>
+         $(document).ready(() =>{
+        	 $(".item").removeClass("active1");
+        	 $("#add-link").addClass("active1");
+         });
+    </script>
+
+    <h1 class="text-center p-3 bg-danger text-white" th:unless="${donations}">There is no particular transactions created..</h1>
+
+</section>
+</body>
+</html>

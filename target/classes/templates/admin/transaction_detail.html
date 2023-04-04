@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8" />
+    <title>Show Detailed Transaction</title>
+</head>
+<body>
+
+<section>
+
+    <div th:if="${session.message}"
+         th:classappend="${session.message.type}" class="alert mr-2 ml-2" role="alert">
+        <p class="text-center" th:text="${session.message.content}"></p>
+        <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+    </div>
+
+    <div style="margin-bottom: 64px;" class="card mr-3 ml-3" th:if="${transactionById}">
+
+        <div class="card-body">
+
+            <div class="container text-center">
+
+                <img style="height:200px;width:200px;" th:src="@{'/img/'+${transactionById.user.imageUrl}}" class="my_profile_picture" src="" alt="profile photo" />
+
+                <h3 class="mt-3">
+                    <span th:text="${transactionById.user.name}"></span>
+                </h3>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#ID</th>
+                        <th scope="col">SCMTRANSACTION<span th:text="${transactionById.myOrderId}"></span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Order Id</th>
+                        <td><span th:text="${transactionById.orderId}"></span></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Payment Id</th>
+                        <td th:if="${transactionById.paymentId!=null}" th:text="${transactionById.paymentId}"></td>
+                        <td th:if="${transactionById.paymentId==null}">null</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Amount</th>
+                        <td><span class="currency" th:text="${transactionById.amount/100}"></span></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Receipt</th>
+                        <td><span th:text="${transactionById.receipt}"></span></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Status</th>
+                        <td th:if="${transactionById.status=='Paid'}"><span><label class="badge badge-gradient-success">PAID</label></span></td>
+                        <td th:if="${transactionById.status=='created'}"><label class="badge badge-gradient-danger"><span>CREATED</span></label></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Created At</th>
+                        <td><span th:text="${transactionById.createdAt}"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="container mt-4">
+                    <a style="color:white;height:39px;" th:onclick="|deleteTransaction(${transactionById.myOrderId})|"  class="btn btn-danger btn-block">DELETE</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+         $(document).ready(() =>{
+        	 $(".item").removeClass("active1");
+        	 $("#add-link").addClass("active1");
+         });
+  </script>
+
+    <!-- to solve the hit and trial process -->
+    <h1 class="text-center p-3 bg-danger text-white" th:unless="${transactionById}">Transaction not found..</h1>
+
+</section>
+
+</body>
+</html>

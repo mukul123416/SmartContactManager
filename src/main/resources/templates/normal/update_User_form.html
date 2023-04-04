@@ -14,7 +14,7 @@
         <th:block th:text="${#session.removeAttribute('message')}"></th:block>
     </div>
 
-    <div class="card mr-3 ml-3">
+    <div class="card mr-3 ml-3 mb-5">
         <div class="card-body">
             <h1 class="text-center">Update User</h1>
             <div class="container-fluid mt-1">
@@ -38,7 +38,7 @@
                                     <i class="fa fa-id-card"></i>
                                 </div>
                             </div>
-                            <select id="role" name="role" class="form-control"  aria-label="Default select example">
+                            <select disabled id="role" name="role" class="form-control"  aria-label="Default select example">
                                 <option selected th:value="${user.role}"><span th:text="${user.role}"></span></option>
                                 <option value="ROLE_USER">ROLE_USER</option>
                                 <option value="ROLE_ADMIN">ROLE_ADMIN</option>
@@ -51,8 +51,8 @@
                                     <i class="fa fa-lock"></i>
                                 </div>
                             </div>
-                            <select id="enabled" name="enabled" class="form-control"  aria-label="Default select example">
-                                <option selected th:value="${user.enabled}"><span th:text="${user.enabled}"></span></option>
+                            <select disabled id="enabled" name="enabled" class="form-control"  aria-label="Default select example">
+                                <option selected th:value="${user.enabled}"><span th:if="${user.enabled}">Active</span><span th:unless="${user.enabled}">Non Active</span></option>
                                 <option value="true">True</option>
                                 <option value="false">False</option>
                             </select>

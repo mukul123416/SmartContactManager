@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::section})">
+<head>
+  <meta charset="UTF-8" />
+  <title>Download Content Dashboard</title>
+</head>
+<body>
+
+<section>
+
+  <h1 class="text-center mt-3 text-secondary font-italic font-weight-light">
+    Download Content Section
+  </h1>
+  <br>
+
+  <div class="container">
+    <div class="row row-cols-1 row-cols-md-2">
+
+      <div class="col mb-4">
+        <div class="card">
+          <div class="text-center" style="margin-top:20px">
+            <img style="height:80px;width:80px;" th:src="@{'/img/pdf_download.png'}" class="card-img-top" alt="...">
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom:20px" class="text-center">
+              <button class="btn btn-danger btn-sm"><a style="text-decoration:none;" th:href="@{/users/export/pdf}" class="card-title"><span style="color:white;font-weight:bold;font-size:12px;">Pdf Download</span></a></button>
+            </div>
+            <p class="card-text">Please click this link to download your all users in Pdf format. <i class="fas fa-user-circle"></i></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col mb-4">
+        <div class="card">
+          <div class="text-center" style="margin-top:20px">
+            <img style="height:80px;width:80px;" th:src="@{'/img/excel_download.png'}" class="card-img-top" alt="...">
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom:20px" class="text-center">
+              <button style="text-decoration:none;background-color:green;border-color:green;" class="btn btn-success btn-sm"><a th:href="@{/users/export/excel}" style="text-decoration:none;" class="card-title"><span style="color:white;font-weight:bold;font-size:12px;">Excel Download</span></a></button>
+            </div>
+            <p class="card-text">Please click this link to download your all users in Excel format. <i class="fas fa-user-circle"></i></p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col mb-4">
+        <div class="card">
+          <div class="text-center" style="margin-top:20px">
+            <img style="height:80px;width:80px;" th:src="@{'/img/pdf_download.png'}" class="card-img-top" alt="...">
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom:20px" class="text-center">
+              <button class="btn btn-danger btn-sm"><a style="text-decoration:none;" th:href="@{/AllTransaction/export/pdf}" class="card-title"><span style="color:white;font-weight:bold;font-size:12px;">Pdf Download</span></a></button>
+            </div>
+            <p class="card-text">Please click this link to download your all transactions in Pdf format. <i class="fas fa-exchange-alt"></i></p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col mb-4">
+        <div class="card">
+          <div class="text-center" style="margin-top:20px">
+            <img style="height:80px;width:80px;" th:src="@{'/img/excel_download.png'}" class="card-img-top" alt="...">
+          </div>
+          <div class="card-body">
+            <div style="margin-bottom:20px" class="text-center">
+              <button style="text-decoration:none;background-color:green;border-color:green;" class="btn btn-success btn-sm"><a th:href="@{/allTransactions/export/excel}" style="text-decoration:none;" class="card-title"><span style="color:white;font-weight:bold;font-size:12px;">Excel Download</span></a></button>
+            </div>
+            <p class="card-text">Please click this link to download your all transactions in Excel format. <i class="fas fa-exchange-alt"></i></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <script>
+         $(document).ready(() =>{
+        	 $(".item").removeClass("active1");
+        	 $("#setting-link").addClass("active1");
+         });
+    </script>
+
+</section>
+
+</body>
+</html>

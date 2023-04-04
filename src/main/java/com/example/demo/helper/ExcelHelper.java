@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ExcelHelper {
 
-    public static String[] HEADERS={"cId","name","secondName","work","email","phone","image","description"};
+    public static String[] HEADERS={"CID","NAME","SECOND NAME","WORK","EMAIL","PHONE","IMAGE","DESCRIPTION"};
 
     public static String SHEET_NAME="contacts_data";
 

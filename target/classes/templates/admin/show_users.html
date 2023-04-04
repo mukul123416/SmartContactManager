@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="admin/base::layout(~{::section})">
+<head>
+  <meta charset="UTF-8">
+  <title>View User</title>
+</head>
+<body>
+<section>
+
+  <div th:if="${session.message}"
+       th:classappend="${session.message.type}" class="alert mr-2 ml-2" role="alert">
+    <p class="text-center" th:text="${session.message.content}"></p>
+    <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+  </div>
+
+  <div class="card mr-3 ml-3 mb-2" th:if="${users}">
+    <div class="card-body">
+      <h1 class="text-center">All Users</h1>
+
+
+      <!--  search -->
+      <div class="search-container my-4">
+
+        <input onKeyup="adminSearch()" id="admin-search-input" type="text" class="form-control" placeholder="Search user" />
+
+        <div class="admin-search-result">
+
+        </div>
+
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col">#ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Status</th>
+            <th scope="col">Created At</th>
+            <th scope="col">Last Update</th>
+            <th scope="col">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="u:${users}">
+            <div>
+            <th scope="row" th:text="${'SCM2021'+u.id}"></th>
+            <td><img th:src="@{'/img/'+${u.imageUrl}}" class="my_profile_picture" src="" alt="profile photo" /><span th:text="${u.name}"></span></td>
+            <td><a th:href="@{'/admin/user/'+${u.id}}"><span th:text="${u.email}"></span></a></td>
+            <td th:if="${u.enabled}"><span><label class="badge badge-gradient-success">ACTIVE</label></span></td>
+            <td th:unless="${u.enabled}"><label class="badge badge-gradient-danger"><span>NON ACTIVE</span></label></td>
+              <td><span th:text="${u.createdAt}"></span></td>
+              <td><span th:text="${u.updatedAt}"></span></td>
+            <td>
+
+              <a style="color:white;" th:onclick="|deleteUser(${u.id})|" class="btn btn-danger btn-sm">Delete</a>
+              <button th:if="${u.enabled}" th:onclick="|deactivateAccount(${u.id})|" class="btn btn-sm badge-gradient-danger btn-hoover">Deactivate</button>
+              <button th:unless="${u.enabled}" th:onclick="|activateAccount(${u.id})|" class="btn btn-sm badge-gradient-success btn-hoover">Activate</button>
+            </td>
+            </div>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- pagination part -->
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li th:if="${currentPage != 0}" class="page-item"><a th:href="@{'/admin/show-users/'+${currentPage-1}}" class="page-link" href="#">Previous</a></li>
+          <li th:classappend="${currentPage==i-1?'active':''}" th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"><a th:href="@{'/admin/show-users/'+${i-1}}" class="page-link" href="#">
+            <span th:text="${i}"></span>
+          </a></li>
+          <li th:if="${currentPage+1 != totalPages}" class="page-item"><a th:href="@{'/admin/show-users/'+${currentPage+1}}" class="page-link" href="#">Next</a></li>
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+
+  <script>
+         $(document).ready(() =>{
+        	 $(".item").removeClass("active1");
+        	 $("#contacts-link").addClass("active1");
+         });
+    </script>
+
+  <div th:unless="${users}" style="background-color: #222;padding: 60px;border-radius:1%;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;margin-left: 10px; margin-right: 10px;" class="text-center errorimage">
+    <h1 style="margin-bottom:24px;color:white">Error <span>404!</span></h1>
+    <p style="font-family: josefin sans,sans-serif;color: #c9c9c9;font-size: 16px;font-weight: 400;margin-top: 0;margin-bottom:23px;">There is no particular users created.</p>
+    <p style="color:white">Please try to <a th:href="@{/admin/index}">go back</a> or <a th:href="@{/admin/index}">return to the homepage</a>.</p>
+    <p style="color:white">Good luck.</p>
+  </div>
+
+</section>
+</body>
+</html>

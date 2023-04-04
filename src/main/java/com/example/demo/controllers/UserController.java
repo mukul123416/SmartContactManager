@@ -28,6 +28,9 @@ import org.springframework.core.io.ClassPathResource;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/user")
@@ -55,9 +58,14 @@ public class UserController {
     public String dashboard(Model model, Principal principal){
         String email = principal.getName();
         User userByEmail = userRepository.getUserByUserName(email);
-        model.addAttribute("user", userByEmail);
-        model.addAttribute("title","User Dashboard");
-        return "normal/user_dashboard";
+        if(userByEmail.isEnabled()){
+            model.addAttribute("user", userByEmail);
+            model.addAttribute("title","User Dashboard");
+            return "normal/user_dashboard";
+        }else{
+            model.addAttribute("title","404 Error Page");
+            return "error_form";
+        }
     }
 
     @RequestMapping("/add-contact")
@@ -251,6 +259,10 @@ public class UserController {
             user.setPassword(singleUserById.getPassword());
             user.setContacts(singleUserById.getContacts());
             user.setEmail(singleUserById.getEmail());
+            user.setEnabled(singleUserById.isEnabled());
+            user.setRole(singleUserById.getRole());
+            user.setCreatedAt(singleUserById.getCreatedAt());
+            user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
             this.userService.addUser(user);
             String name=principal.getName();
             User user1=this.userRepository.getUserByUserName(name);

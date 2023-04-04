@@ -1,12 +1,14 @@
 package com.example.demo.entities;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -44,6 +46,16 @@ public class User {
     @Size(min=10,max=500,message="about must be between 10 - 500 characters !!")
     @Column(length = 500)
     private String about;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @Column(name = "CREATED_AT", nullable = false)
+    private Date createdAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    @Column(name = "UPDATED_AT", nullable = false)
+    private Date updatedAt;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user")
     private List<Contact> contacts = new ArrayList<>();

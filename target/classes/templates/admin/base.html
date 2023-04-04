@@ -19,6 +19,7 @@
           integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
           crossorigin="anonymous"></script>
 
+
   <link rel="stylesheet" th:href="@{/css/style.css}" />
 
   <title th:text="${title}">Base html</title>
@@ -34,16 +35,21 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto text-uppercase">
       <li class="nav-item active">
-        <a class="nav-link" th:href="@{/user/index}">Home <span class="sr-only">(current)</span></a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link"><span th:text="${user.name}"></span></a>
+        <a class="nav-link" th:href="@{/admin/index}">Home <span class="sr-only">(current)</span></a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link" th:href="@{/logout}">Logout</a>
       </li>
+
+      <li class="nav-item">
+        <a th:href="@{/admin/profile}" class="nav-link"><span th:text="${user.name}"></span></a>
+      </li>
+
+      <li class="nav-item">
+        <img th:src="@{'/img/'+${user.imageUrl}}" class="my_profile_picture" src="" alt="profile photo" />
+      </li>
+
     </ul>
   </div>
 </nav>
@@ -51,17 +57,17 @@
 
 <div class="sidebar mt-2">
   <span onclick="toggleSidebar()" class="crossBtn">&times;</span>
-  <a id="home-link" th:href="@{/user/index}" class="item"><i class="fas fa-home"></i> Home</a>
-  <a id="contacts-link" th:href="@{/user/show-contacts/0}" class="item"><i class="fas fa-id-card-alt"></i> View Users</a>
-  <a id="add-link" th:href="@{/user/add-contact}" class="item"><i class="fas fa-pencil-alt"></i> Add Contact</a>
-  <a id="profile-link" th:href="@{/user/profile}" class="item"><i class="fas fa-user-circle"></i> Your Profile</a>
-  <a id="setting-link" th:href="@{/user/settings}" class="item"><i class="fas fa-cogs"></i> Settings</a>
+  <a id="home-link" th:href="@{/admin/index}" class="item"><i class="fas fa-home"></i> Home</a>
+  <a id="contacts-link" th:href="@{/admin/show-users/0}"  class="item"><i class="fas fa-id-card-alt"></i> View Users</a>
+  <a id="add-link" th:href="@{/admin/show-transactions/0}" class="item"><i class="fas fa-exchange-alt"></i> View Donations</a>
+  <a id="profile-link" th:href="@{/admin/profile}" class="item"><i class="fas fa-user-circle"></i> Your Profile</a>
+  <a id="setting-link" th:href="@{/admin/settings}" class="item"><i class="fas fa-cogs"></i> Settings</a>
   <a th:href="@{/logout}" class="item"><i class="fas fa-sign-out-alt"></i> Logout</a>
   <div class="divider"></div>
 </div>
 
 <div class="content mt-5">
-  <i onclick="toggleSidebar()" class="fas fa-bars m-3" style="cursor: pointer;"></i>
+  <i onclick="toggleSidebar()" class="fas fa-bars m-3" style="cursor: pointer;padding-top: 20px;"></i>
   <div th:replace="${content}"></div>
 </div>
 
@@ -77,11 +83,11 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script>
-	    function deleteContact(cid){
+	    function deleteUser(uid){
 
 	    	swal({
 	    		  title: "Are you sure?",
-	    		  text: "You want to delete this contact..",
+	    		  text: "You want to delete this user..",
 	    		  icon: "warning",
 	    		  buttons: true,
 	    		  dangerMode: true,
@@ -89,10 +95,76 @@
 	    		.then((willDelete) => {
 	    		  if (willDelete) {
 
-	    			  window.location="/user/delete/"+cid;
+	    			  window.location="/admin/delete/"+uid;
 
 	    		  } else {
-	    		    swal("Your contact is safe !!");
+	    		    swal("user is safe !!");
+	    		  }
+	    		});
+
+	    }
+
+
+ function deleteTransaction(tid){
+
+	    	swal({
+	    		  title: "Are you sure?",
+	    		  text: "You want to delete this transaction..",
+	    		  icon: "warning",
+	    		  buttons: true,
+	    		  dangerMode: true,
+	    		})
+	    		.then((willDelete) => {
+	    		  if (willDelete) {
+
+	    			  window.location="/admin/transaction/delete/"+tid;
+
+	    		  } else {
+	    		    swal("transaction is safe !!");
+	    		  }
+	    		});
+
+	    }
+
+
+ function deactivateAccount(uid){
+
+	    	swal({
+	    		  title: "Are you sure?",
+	    		  text: "You want to deactivate this account..",
+	    		  icon: "warning",
+	    		  buttons: true,
+	    		  dangerMode: true,
+	    		})
+	    		.then((willDelete) => {
+	    		  if (willDelete) {
+
+	    			  window.location="/admin/user/deactivate/"+uid;
+
+	    		  } else {
+	    		    swal("account is safe !!");
+	    		  }
+	    		});
+
+	    }
+
+
+ function activateAccount(uid){
+
+	    	swal({
+	    		  title: "Are you sure?",
+	    		  text: "You want to activate this account..",
+	    		  icon: "warning",
+	    		  buttons: true,
+	    		  dangerMode: true,
+	    		})
+	    		.then((willDelete) => {
+	    		  if (willDelete) {
+
+	    			  window.location="/admin/user/activate/"+uid;
+
+	    		  } else {
+	    		    swal("cancel request !!");
 	    		  }
 	    		});
 

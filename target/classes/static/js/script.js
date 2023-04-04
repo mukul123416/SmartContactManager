@@ -19,7 +19,8 @@ const toggleSidebar = () => {
      }
      else{
 
-       let url = `https://smartcontactmanager-production.up.railway.app/search/${query}`;
+//       let url = `https://smartcontactmanager-production.up.railway.app/search/${query}`;
+         let url = `http://localhost:8080/search/${query}`;
 
 
        fetch(url)
@@ -38,6 +39,72 @@ const toggleSidebar = () => {
 
      }
    };
+
+
+
+     const adminSearch = () => {
+
+        let query = $("#admin-search-input").val();
+
+        if(query == ""){
+          $(".admin-search-result").hide();
+        }
+        else{
+
+//          let url = `https://smartcontactmanager-production.up.railway.app/admin/search/${query}`;
+
+          let url = `http://localhost:8080/admin/search/${query}`;
+
+
+          fetch(url)
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+               let text = `<div class='list-group'>`;
+               data.forEach((user) => {
+                 text += `<a href='/admin/user/${user.id}' class='list-group-item list-group-item-action'> ${user.name} </a>`
+               });
+               text += `</div>`;
+               $(".admin-search-result").html(text);
+               $(".admin-search-result").show();
+            });
+
+        }
+      };
+
+
+
+ const transactionSearch = () => {
+
+        let query = $("#transaction-search-input").val();
+
+        if(query == ""){
+          $(".transaction-search-result").hide();
+        }
+        else{
+
+//          let url = `https://smartcontactmanager-production.up.railway.app/admin/search/${query}`;
+
+          let url = `http://localhost:8080/transaction/search/${query}`;
+
+
+          fetch(url)
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+               let text = `<div class='list-group'>`;
+               data.forEach((transaction) => {
+                 text += `<a href='/admin/transaction/${transaction.myOrderId}' class='list-group-item list-group-item-action'> ${transaction.orderId} </a>`
+               });
+               text += `</div>`;
+               $(".transaction-search-result").html(text);
+               $(".transaction-search-result").show();
+            });
+
+        }
+      };
 
 
 //first request to server to create order
@@ -255,4 +322,13 @@ function myFunction3() {
     x.type = "password";
   }
 }
+
+ let x = document.querySelectorAll(".currency");
+    for (let i = 0, len = x.length; i < len; i++) {
+        let num = Number(x[i].innerHTML)
+                .toLocaleString('en');
+        x[i].innerHTML = num;
+        x[i].classList.add("currSign");
+    }
+
 

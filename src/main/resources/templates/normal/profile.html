@@ -45,12 +45,13 @@
 
                         <tr>
                             <th scope="row">Account Active</th>
-                            <td><span th:text="${user.enabled}"></span></td>
+                            <td th:if="${user.enabled}"><span><label class="badge badge-gradient-success">ACTIVE</label></span></td>
+                            <td th:unless="${user.enabled}"><label class="badge badge-gradient-danger"><span>NON ACTIVE</span></label></td>
                         </tr>
 
                         <tr>
                             <th scope="row">About You</th>
-                            <td><span th:text="${user.about}"></span></td>
+                            <td><span th:utext="${user.about}"></span></td>
                         </tr>
                         </tbody>
                     </table>

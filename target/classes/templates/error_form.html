@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+  <meta charset="UTF-8">
+  <title>404 Error Page</title>
+</head>
+<body>
+<section class="banner d-flex justify-content-center align-items-center img-fluid">
+  <div style="background-color: #222;padding: 60px;border-radius:1%;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;" class="text-center errorimage">
+    <h1 style="margin-bottom:24px;">Error <span>404!</span></h1>
+    <p style="font-family: josefin sans,sans-serif;color: #c9c9c9;font-size: 16px;font-weight: 400;margin-top: 0;margin-bottom:23px;">The account you are looking for might have been deactivated, had its name changed or is temporarily unavailable.</p>
+    <p>Please try to <a th:href="@{/signin}">go back</a> or <a th:href="@{/home}">return to the homepage</a>.</p>
+    <p>Good luck.</p>
+  </div>
+</section>
+</body>
+</html>

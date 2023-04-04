@@ -37,11 +37,15 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link"><span th:text="${user.name}"></span></a>
+        <a class="nav-link" th:href="@{/logout}">Logout</a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/logout}">Logout</a>
+        <a th:href="@{/user/profile}" class="nav-link"><span th:text="${user.name}"></span></a>
+      </li>
+
+      <li class="nav-item">
+        <img th:src="@{'/img/'+${user.imageUrl}}" class="my_profile_picture" src="" alt="profile photo" />
       </li>
     </ul>
   </div>

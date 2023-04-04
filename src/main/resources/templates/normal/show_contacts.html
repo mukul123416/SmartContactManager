@@ -13,7 +13,7 @@
       <th:block th:text="${#session.removeAttribute('message')}"></th:block>
     </div>
 
-    <div class="card mr-3 ml-3" th:if="${contacts}">
+    <div class="card mr-3 ml-3 mb-2" th:if="${contacts}">
       <div class="card-body">
         <h1 class="text-center">Your Contacts</h1>
 
@@ -80,7 +80,12 @@
          });
     </script>
 
-  <h1 class="text-center p-3 bg-danger text-white" th:unless="${contacts}">You don't have any contact for particular user...</h1>
+  <div th:unless="${contacts}" style="background-color: #222;padding: 60px;border-radius:1%;box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;margin-left: 10px; margin-right: 10px;" class="text-center errorimage">
+    <h1 style="margin-bottom:24px;color:white">Error <span>404!</span></h1>
+    <p style="font-family: josefin sans,sans-serif;color: #c9c9c9;font-size: 16px;font-weight: 400;margin-top: 0;margin-bottom:23px;">You don't have any contact for particular user.</p>
+    <p style="color:white">Please try to <a th:href="@{/user/index}">go back</a> or <a th:href="@{/user/index}">return to the homepage</a>.</p>
+    <p style="color:white">Good luck.</p>
+  </div>
 
 </section>
 </body>
