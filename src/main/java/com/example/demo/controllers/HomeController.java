@@ -1,8 +1,10 @@
 package com.example.demo.controllers;
 
+import com.example.demo.entities.Notification;
 import com.example.demo.entities.User;
 import com.example.demo.helper.Message;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.NotificationService;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -34,6 +36,9 @@ public class HomeController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @RequestMapping("/home")
     public String home(Model model){
@@ -74,6 +79,11 @@ public class HomeController {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             this.userService.addUser(user);
             redirAttrs.addFlashAttribute("success", "Successfully Registered !!");
+            Notification notification = new Notification();
+            notification.setRead(false);
+            notification.setMessage("A new user has been created.");
+            notification.setUser(user);
+            this.notificationService.addNotification(notification);
             return "redirect:/signup";
         }catch (Exception ex){
             redirAttrs.addFlashAttribute("error", "Something Went wrong !!" + ex.getMessage());

@@ -2,11 +2,14 @@ package com.example.demo.controllers;
 
 import com.example.demo.entities.Contact;
 import com.example.demo.entities.MyOrder;
+import com.example.demo.entities.Notification;
 import com.example.demo.entities.User;
 import com.example.demo.helper.Message;
 import com.example.demo.repositories.MyOrderRepository;
+import com.example.demo.repositories.NotificationRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.ContactService;
+import com.example.demo.services.NotificationService;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -28,6 +31,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,6 +55,12 @@ public class AdminController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private NotificationRepository notificationRepository;
+
+    @Autowired
+    private NotificationService notificationService;
+
     @RequestMapping("/index")
     public String dashboard(Model model, Principal principal){
         String email = principal.getName();
@@ -62,9 +72,15 @@ public class AdminController {
         Long numberOfUser = allUsers.stream().filter(a -> a.getRole().equals("ROLE_USER")).collect(Collectors.counting());
         Long activeUser = allUsers.stream().filter(a -> a.isEnabled() && a.getRole().equals("ROLE_USER")).collect(Collectors.counting());
         Long nonActiveUser = allUsers.stream().filter(a->!a.isEnabled() && a.getRole().equals("ROLE_USER")).collect(Collectors.counting());
+
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
+
         model.addAttribute("numberOfUser",numberOfUser);
         model.addAttribute("activeUser",activeUser);
         model.addAttribute("nonActiveUser",nonActiveUser);
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
 
         model.addAttribute("users",users);
         model.addAttribute("user", userByEmail);
@@ -82,6 +98,9 @@ public class AdminController {
         Pageable pageable = PageRequest.of(page,2);
 
         Page<User> users = this.userRepository.findAllByRole(pageable,"ROLE_USER");
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
+
         if(users.getContent().size()!=0){
             model.addAttribute("users",users);
             model.addAttribute("currentPage",page);
@@ -89,6 +108,8 @@ public class AdminController {
         }
         model.addAttribute("user", user);
         model.addAttribute("title","Users");
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
         return "admin/show_users";
     }
 
@@ -100,9 +121,22 @@ public class AdminController {
         String name=principal.getName();
         User user=this.userRepository.getUserByUserName(name);
         m.addAttribute("user",user);
+
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
+        allNotification.stream()
+                .filter(a -> a.getUser().getId() == uId)
+                .map(b -> {
+                    b.setRead(true);
+                    this.notificationService.addNotification(b);
+                    return b;
+                }).collect(Collectors.toList());
+
         if(userDetail.getRole().equals("ROLE_USER")){
             m.addAttribute("userById", userDetail);
             m.addAttribute("title",userDetail.getName());
+            m.addAttribute("notificationCount",notificationCount);
+            m.addAttribute("allNotifications",allNotification);
         }
         return "admin/user_detail";
     }
@@ -112,6 +146,10 @@ public class AdminController {
 
         User UserById = this.userRepository.getById(uid);
         List<Contact> contacts = UserById.getContacts();
+
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
+
         for(Contact contact:contacts){
             this.contactService.deleteContactById(contact.getCId());
         }
@@ -129,6 +167,8 @@ public class AdminController {
         String name=principal.getName();
         User user=this.userRepository.getUserByUserName(name);
         model.addAttribute("user",user);
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
 
         session.setAttribute("message", new Message("User deleted successfully !!","alert-success"));
 
@@ -141,8 +181,12 @@ public class AdminController {
         String name=principal.getName();
         User user=this.userRepository.getUserByUserName(name);
         model.addAttribute("user",user);
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
 
         model.addAttribute("title","Profile Page");
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
         return "admin/profile";
     }
 
@@ -152,9 +196,13 @@ public class AdminController {
         String userName=principal.getName();
 
         User user = userRepository.getUserByUserName(userName);
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
 
         model.addAttribute("user", user);
         model.addAttribute("title","Settings");
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
         return "admin/settings";
     }
 
@@ -164,9 +212,13 @@ public class AdminController {
         String userName=principal.getName();
 
         User user = userRepository.getUserByUserName(userName);
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
 
         model.addAttribute("user", user);
         model.addAttribute("title","Settings");
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
         return "admin/setting_password_change";
     }
 
@@ -175,6 +227,10 @@ public class AdminController {
 
         String userName = principal.getName();
         User user = userRepository.getUserByUserName(userName);
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
 
         if(this.passwordEncoder.matches(oldPassword,user.getPassword())) {
 
@@ -196,8 +252,12 @@ public class AdminController {
         String name=principal.getName();
         User user=this.userRepository.getUserByUserName(name);
         model.addAttribute("user",user);
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
 
         model.addAttribute("title","Update Admin");
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
         return "admin/update_admin_form";
     }
 
@@ -208,6 +268,8 @@ public class AdminController {
         try {
             //old user details
             User singleUserById = this.userService.getSingleUserById(user.getId());
+            List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+            Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
 
             if(!file.isEmpty()) {
                 //delete old photo
@@ -227,10 +289,16 @@ public class AdminController {
             user.setPassword(singleUserById.getPassword());
             user.setContacts(singleUserById.getContacts());
             user.setEmail(singleUserById.getEmail());
+            user.setEnabled(singleUserById.isEnabled());
+            user.setRole(singleUserById.getRole());
+            user.setCreatedAt(singleUserById.getCreatedAt());
+            user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
             this.userService.addUser(user);
             String name=principal.getName();
             User user1=this.userRepository.getUserByUserName(name);
             model.addAttribute("user",user1);
+            model.addAttribute("allNotifications",allNotification);
+            model.addAttribute("notificationCount",notificationCount);
             session.setAttribute("message", new Message("Admin is updated","alert-success"));
             return "redirect:/admin/profile";
         }catch (Exception ex){
@@ -246,7 +314,11 @@ public class AdminController {
     public String downloadContent(Model model,Principal principal) {
         String name=principal.getName();
         User user=this.userRepository.getUserByUserName(name);
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
         model.addAttribute("user",user);
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
 
         model.addAttribute("title","Download Content");
         return "admin/download_content";
@@ -257,6 +329,8 @@ public class AdminController {
 
         String name=principal.getName();
         User user=this.userRepository.getUserByUserName(name);
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
 
         //currentPage-page
         //contact Per page - 5
@@ -270,6 +344,8 @@ public class AdminController {
 
         model.addAttribute("user", user);
         model.addAttribute("title","Transaction Page");
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
         return "admin/show_transactions";
     }
 
@@ -279,9 +355,13 @@ public class AdminController {
         MyOrder transactionDetail = this.myOrderRepository.getById(tId);
         String name=principal.getName();
         User user=this.userRepository.getUserByUserName(name);
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
         m.addAttribute("user",user);
         m.addAttribute("transactionById", transactionDetail);
         m.addAttribute("title",transactionDetail.getUser().getName());
+        m.addAttribute("allNotifications",allNotification);
+        m.addAttribute("notificationCount",notificationCount);
         return "admin/transaction_detail";
     }
 
@@ -293,7 +373,11 @@ public class AdminController {
 
         String name=principal.getName();
         User user=this.userRepository.getUserByUserName(name);
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
         model.addAttribute("user",user);
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
 
         session.setAttribute("message", new Message("Transaction deleted successfully !!","alert-success"));
 
@@ -307,9 +391,14 @@ public class AdminController {
         singleUserById.setEnabled(false);
         this.userService.updateUserById(singleUserById,uid);
 
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
+
         String name=principal.getName();
         User user=this.userRepository.getUserByUserName(name);
         model.addAttribute("user",user);
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
 
         session.setAttribute("message", new Message("Account deactivate successfully !!","alert-success"));
 
@@ -324,9 +413,14 @@ public class AdminController {
         singleUserById.setEnabled(true);
         this.userService.updateUserById(singleUserById,uid);
 
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
+
         String name=principal.getName();
         User user=this.userRepository.getUserByUserName(name);
         model.addAttribute("user",user);
+        model.addAttribute("allNotifications",allNotification);
+        model.addAttribute("notificationCount",notificationCount);
 
         session.setAttribute("message", new Message("Account activate successfully !!","alert-success"));
 

@@ -52,9 +52,9 @@
                                 </div>
                             </div>
                             <select id="enabled" name="enabled" class="form-control"  aria-label="Default select example">
-                                <option selected th:value="${user.enabled}"><span th:text="${user.enabled}"></span></option>
-                                <option value="true">True</option>
-                                <option value="false">False</option>
+                                <option selected th:value="${user.enabled}"><span th:if="${user.enabled}">Active</span><span th:unless="${user.enabled}">Non Active</span></option>
+                                <option value="true">Active</option>
+                                <option value="false">NonActive</option>
                             </select>
                         </div>
 

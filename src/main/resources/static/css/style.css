@@ -390,7 +390,57 @@ text-decoration:none;
   	background: Linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)) , url(../img/errorpage.jpg);
   	background-size:100% 100%;
 }
-
-
+  .notificationbadge {
+               position: relative;
+               top: -13px;
+               left: -15px;
+               border-radius: 50%;
+               background-color: red;
+               color: white;
+               font-size: 11px;
+               font-weight: initial;
+               line-height: 1;
+               padding: .375rem .5625rem;
+               font-family: "ubuntu-medium", sans-serif;
+        }
+.sec{
+  padding: 25px 10px;
+  background-color: #F4F4F4;
+  transition: 0.5s;
+}
+.new{
+  border-style: none none solid none;
+  border-color: black;
+  border-width: 1px;
+}
+.sec:hover{
+  background-color: #BFBFBF;
+}
+.profile{
+  -webkit-clip-path: circle(50% at 50% 50%);
+  clip-path: circle(50% at 50% 50%);
+  width: 67px;
+  float: left;
+  margin-left: 14px;
+  margin-top: 5px;
+}
+.txt{
+  vertical-align: top;
+  padding: 5px 10px 0px 115px;
+}
+.sub{
+  font-size: 1rem;
+  color: grey;
+}
+.notification-href{
+ text-decoration: none;
+ color: black;
+}
+.notification-href:visited{
+  color: black;
+  text-decoration: none;
+}
+.modal-body::-webkit-scrollbar-thumb{
+}
 
 
