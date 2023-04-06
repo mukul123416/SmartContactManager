@@ -95,7 +95,7 @@
           <div th:each="n:${allNotifications}">
             <div th:if="${!n.isRead}">
           <div class = "sec new">
-            <a style="text-decoration:none;color:black" class="notification-href" th:href="@{'/admin/user/'+${n.user.id}}">
+            <a style="text-decoration:none;color:black" class="notification-href" th:href="@{'/admin/notification/'+${n.user.id}}">
               <div class = "profCont">
                 <img class = "profile" th:src="@{'/img/'+${n.user.imageUrl}}">
               </div>

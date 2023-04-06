@@ -124,6 +124,26 @@ public class AdminController {
 
         List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
         Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
+
+        if(userDetail.getRole().equals("ROLE_USER")){
+            m.addAttribute("userById", userDetail);
+            m.addAttribute("title",userDetail.getName());
+            m.addAttribute("notificationCount",notificationCount);
+            m.addAttribute("allNotifications",allNotification);
+        }
+        return "admin/user_detail";
+    }
+
+    @RequestMapping("/notification/{uId}")
+    public String showNotificationDetail(@PathVariable("uId") Integer uId,Model m,Principal principal) {
+
+        User userDetail = this.userService.getSingleUserById(uId);
+        String name=principal.getName();
+        User user=this.userRepository.getUserByUserName(name);
+        m.addAttribute("user",user);
+
+        List<Notification> allNotification = this.notificationRepository.findAllByIsRead(false);
+        Long notificationCount = allNotification.stream().map(a -> a.getNotificationId()).collect(Collectors.counting());
         allNotification.stream()
                 .filter(a -> a.getUser().getId() == uId)
                 .map(b -> {
@@ -138,7 +158,7 @@ public class AdminController {
             m.addAttribute("notificationCount",notificationCount);
             m.addAttribute("allNotifications",allNotification);
         }
-        return "admin/user_detail";
+        return "admin/notification_detail";
     }
 
     @GetMapping("/delete/{uid}")

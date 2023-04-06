@@ -19,8 +19,8 @@ const toggleSidebar = () => {
      }
      else{
 
-//       let url = `https://smartcontactmanager-production.up.railway.app/search/${query}`;
-         let url = `http://localhost:8080/search/${query}`;
+       let url = `https://smartcontactmanager-production.up.railway.app/search/${query}`;
+//         let url = `http://localhost:8080/search/${query}`;
 
 
        fetch(url)
@@ -51,9 +51,9 @@ const toggleSidebar = () => {
         }
         else{
 
-//          let url = `https://smartcontactmanager-production.up.railway.app/admin/search/${query}`;
+          let url = `https://smartcontactmanager-production.up.railway.app/admin/search/${query}`;
 
-          let url = `http://localhost:8080/admin/search/${query}`;
+//          let url = `http://localhost:8080/admin/search/${query}`;
 
 
           fetch(url)
@@ -84,9 +84,9 @@ const toggleSidebar = () => {
         }
         else{
 
-//          let url = `https://smartcontactmanager-production.up.railway.app/admin/search/${query}`;
+          let url = `https://smartcontactmanager-production.up.railway.app/admin/search/${query}`;
 
-          let url = `http://localhost:8080/transaction/search/${query}`;
+//          let url = `http://localhost:8080/transaction/search/${query}`;
 
 
           fetch(url)
